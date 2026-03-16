@@ -1,27 +1,24 @@
 const express=require('express')
-const {adminAuth,userAuth}=require('./middlewares/auths')
 
 const app=express()
-// USE OF MIDDLEWARE IN AUTHORIZATION
-app.use("/admin",adminAuth)
-
-app.get("/user",userAuth,(req,res,next)=>{
-    res.send("This user data user can access")
-    next()
+// HANDLE ERROR WITH MIDDLEWARE OR WITH TRY CATCH METHOD. BUT WHILE FIRING ERROR KEEP THE SEQUEBNCE OF CODE IN MIND.
+// GIVE PRIORITY TO TRY AND CATCH METHOD
+app.get("/getUserData",(req,res)=>{
+    // Try catch method
+    try{
+        throw new Error ('error Thrown')
+    res.send("User data sent...!")
+    }
+    catch(err){
+        res.status(500).send('Something went wrong...!')
+    }
 })
-// auth middleware will not work here
-app.post("/user/login",(req,res,next)=>{
-    res.send("user has been logged in....!")
-    next()
-})
-
-app.get("/admin",(req,res,next)=>{
-    res.send("This user data admin can access")
-    next()
-})
-
-app.get("/admin/manager",(req,res,next)=>{
-    console.log("This user data manager can access")
+// Middleware for Error: Handle error here
+app.use("/",(err,req,res,next)=>{
+    if (err){
+        // Log Error Message 
+        res.status(500).send('Something went wrong...!')
+    }
 })
 
 app.listen(3000,()=>{
