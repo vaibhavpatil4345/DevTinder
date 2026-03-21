@@ -36,7 +36,7 @@ app.get("/user", async(req,res)=>{
 
 // Feed API, get/feed : Get all the users from API
 app.get("/feed",async (req,res)=>{
-
+  
   try{
     const users= await User.find({})
     res.send(users)
@@ -59,14 +59,14 @@ app.delete("/user",async(req,res)=>{
 
 
 // Update api to update user info
-
 app.patch("/user",async (req,res)=>{
 const userId=req.body.userId
-const emailId=req.body.userId
+// const emailId=req.body.userId
 const data=req.body
   try{
-  //  const user= await User.findByIdAndUpdate({_id: userId}, data, {returnDocument : "after"})
-   const user= await User.findByIdAndUpdate(emailId, data, {returnDocument : "after"})
+   const user= await User.findByIdAndUpdate({_id: userId}, data, {returnDocument : "after", runValidators:true})
+// update the user using emailId
+  //  const user= await User.findByIdAndUpdate(emailId, data, {returnDocument : "after"})
    console.log("user",user)
    res.send("user updated successfully...")
 
