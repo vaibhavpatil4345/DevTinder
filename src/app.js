@@ -43,10 +43,10 @@ app.post("/login",async (req,res)=>{
     if (!user){
       throw new Error("User is not valid")
     }
-    const isPasswordValid= await bcrypt.compare(password , user.password)
+    const isPasswordValid= await user.validatePassword(password)
     if (isPasswordValid){
       // create a jwt token
-      const token= jwt.sign({_id:user._id},"DEV@123456Tinder", {expiresIn: "1d"})
+      const token=await user.getJWT()
       // wrap tocken in cookes and send cookies to client:
       res.cookie("token", token, {expires: new Date(Date.now() + 2 * 3600000)})
       res.send("User login successful")
