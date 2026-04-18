@@ -5,13 +5,13 @@ const bcrypt=require("bcrypt")
 
 // Create Schema here
 const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true, minLength:5, maxLength:20 },
+  firstName: { type: String, required: true, minLength:5, maxLength:20, index:true },
   lastName: { type: String },
   emailId: { type: String, required: true, unique: true, lowercase:true, trim: true, validate(value){
     if (!validator.isEmail(value)){
       throw new Error("invalid email address"+ value)
     }
-  } 
+  }
 
    },
   password: { type: String, required: true,validate(value){
