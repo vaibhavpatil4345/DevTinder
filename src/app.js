@@ -3,9 +3,14 @@ const connectDB = require("./config/databse");
 const User = require("./models/user");
 const cookieParser = require("cookie-parser")
 const app = express();
+const cors=require("cors")
 // middleware to convert json data to JS object
 app.use(express.json());
 app.use(cookieParser())
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+}))
 
 // Express Router
 const authRouter=require("./routes/auth")

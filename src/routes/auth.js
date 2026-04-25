@@ -43,7 +43,7 @@ authRouter.post("/login",async (req,res)=>{
       const token=await user.getJWT()
       // wrap tocken in cookes and send cookies to client:
       res.cookie("token", token, {expires: new Date(Date.now() + 2 * 3600000)})
-      res.send("User login successful")
+      res.send(user)
     }else{
       throw new Error ("Invalid password")
     }
