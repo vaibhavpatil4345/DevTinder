@@ -54,9 +54,9 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     const loggedInUser = req.user;
     const page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 10;
-    limit > 50 ? 50 : limit;
+    limit = limit > 50 ? 50 : limit;
     const skip = (page - 1) * limit;
-    /* User should see all the user cards except
+        /* User should see all the user cards except
         1.his own card
         2.His connections
         3.ignored people
@@ -64,11 +64,10 @@ userRouter.get("/feed", userAuth, async (req, res) => {
          */
 
     // Find all connection request (sent + received)
-    const hideUsersFromFeed = new Set();
     const connectionRequests = await ConnectionRequest.find({
       $or: [{ fromUserId: loggedInUser._id }, { toUserId: loggedInUser._id }],
-    }).select("fromUserId toUserId");
-
+    }).select("fromUserId  toUserId");
+    const hideUsersFromFeed = new Set();
     connectionRequests.forEach((req) => {
       hideUsersFromFeed.add(req.fromUserId.toString());
       hideUsersFromFeed.add(req.toUserId.toString());
@@ -83,7 +82,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       .skip(skip)
       .limit(limit);
 
-    res.json({data:users});
+    res.json({ data: users });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
