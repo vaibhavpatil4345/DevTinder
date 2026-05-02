@@ -4,6 +4,7 @@ const User = require("./models/user");
 const cookieParser = require("cookie-parser")
 const app = express();
 const cors=require("cors")
+require('dotenv').config()
 // middleware to convert json data to JS object
 app.use(express.json());
 app.use(cookieParser())
@@ -91,7 +92,7 @@ app.patch("/user/:userId", async (req, res) => {
 connectDB()
   .then(() => {
     console.log("Database connection established...");
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("server has been listening on port 3000");
     });
   })

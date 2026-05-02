@@ -3,6 +3,7 @@ const { userAuth } = require("../middlewares/auths");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 const { connection } = require("mongoose");
+const sendEmail=require("../utils/sendEmail")
 
 const requestRouter = express.Router();
 
@@ -50,6 +51,7 @@ requestRouter.post(
       });
 
       const data = await connectionRequest.save();
+      const emailRes=await sendEmail.run()
 
       res.json({
         message:
