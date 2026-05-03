@@ -1,4 +1,3 @@
 const cron=require("node-cron")
-// cron.schedule("* * * * * *",()=>{
-//     console.log("Hello world", + new Date())
-// })
+cron.schedule("* * * * * *",()=>{
+})
